@@ -1,4 +1,4 @@
-.Person {
+.person {
     width: 60%;
     margin: 16px auto;
     border: 1px solid #eee;
@@ -8,7 +8,7 @@
 }
 
 @media screen and (min-width: 500px) {
-    .Person {
+    .person {
         width: 450px;
     }
 }
