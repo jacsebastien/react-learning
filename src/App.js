@@ -40,20 +40,20 @@ class App extends Component {
     }
 
     render() {
-        const style = {
-            backgroundColor: 'white',
+        const buttonStyle = {
+            backgroundColor: 'green',
             font: 'inherit',
-            border: '1px solid blue',
+            border: 'none',
             padding: '6px',
             cursor: 'pointer',
             borderRadius: '4px',
-            color: 'blue'
+            color: 'white'
         };
 
-        let persons = null;
+        let personsElements = null;
 
         if (this.state.showPersons) {
-            persons = (
+            personsElements = (
                 <div>
                     {this.state.persons.map((person, i) => {
                         // "key" property help React to know whitch element need to be updated when state changed and avoid re-rendering the all list
@@ -66,13 +66,15 @@ class App extends Component {
                     })}
                 </div>
             );
+
+            buttonStyle.backgroundColor = 'red';
         }
 
         return (
             <div className="App">
                 <h1>Hello World !</h1>
-                <button style={style} onClick={this.togglePersonsHandler}>Toggle Persons</button>
-                {persons}
+                <button style={buttonStyle} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+                {personsElements}
             </div>
         );
     }
