@@ -1,23 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 
-import './App.css';
+import styles from './App.module.css';
 import Person from './Person/Person';
-
-const StyledButton = styled.button`
-    background-color: ${props => props.alt ? 'red' : 'green'};
-    font: inherit;
-    border: none;
-    padding: 6px;
-    cursor: pointer;
-    border-radius: 4px;
-    color: white;
-
-    &:hover: {
-        background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-        color: black;
-    }
-`;
 
 class App extends Component {
     state = {
@@ -56,8 +40,8 @@ class App extends Component {
     }
 
     render() {
-
         let personsElements = null;
+        let btnStyles = [styles.button];
 
         if (this.state.showPersons) {
             personsElements = (
@@ -73,6 +57,8 @@ class App extends Component {
                     })}
                 </div>
             );
+
+            btnStyles.push(styles.red);
         }
 
         const classes = [];
@@ -86,10 +72,10 @@ class App extends Component {
         }
 
         return (
-            <div className="App">
+            <div className={styles.app}>
                 <h1>Hello World !</h1>
                 <p className={classes.join(' ')}>This is a React App.</p>
-                <StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>Toggle Persons</StyledButton>
+                <button className={btnStyles.join(' ')} onClick={this.togglePersonsHandler}>Toggle Persons</button>
                 {personsElements}
             </div>
         );
@@ -97,43 +83,3 @@ class App extends Component {
 }
 
 export default App;
-
-// import React, { useState } from 'react';
-
-// const App = props => {
-//   // useState returns an object AND a method that allow to change the state
-//   const [personsState, setPersonsState] = useState({
-//     persons: [
-//       { name: 'Nash', age: 30 },
-//       { name: 'Eowynne', age: 29 },
-//       { name: 'Ray', age: 26 }
-//     ]
-//   });
-
-//   const [otherState, setOtherState] = useState('Some other value');
-
-//   console.log(personsState, otherState);
-
-//   const switchNameHandler = () => {
-//     // REPLACE old state by this one (erase properties, delete missing properties)
-//     setPersonsState({
-//       persons: [
-//         { name: 'Strife', age: 30 },
-//         { name: 'Eowynne', age: 29 },
-//         { name: 'Ray', age: 27 }
-//       ]
-//     })
-//   }
-
-//   return (
-//     <div className="App">
-//       <h1>Hello World !</h1>
-//       <button onClick={switchNameHandler}>Switch Name</button>
-//       <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
-//       <Person name={personsState.persons[1].name} age={personsState.persons[1].age}>My Hobbies: Horsing</Person>
-//       <Person name={personsState.persons[2].name} age={personsState.persons[2].age} />
-//     </div>
-//   );
-// }
-
-// export default App;
