@@ -6,9 +6,9 @@ import Person from './Person/Person';
 class App extends Component {
     state = {
         persons: [
-            { name: 'Nash', age: 30 },
-            { name: 'Eowynne', age: 29 },
-            { name: 'Ray', age: 26 }
+            { id: 'ezf45', name: 'Nash', age: 30 },
+            { id: 'qv6ef', name: 'Eowynne', age: 29 },
+            { id: 'tb6rb', name: 'Ray', age: 26 }
         ],
         otherState: 'Some other value',
         showPersons: false
@@ -28,7 +28,7 @@ class App extends Component {
         // Create a copy to avoid modify the original one outside "setState" method
         // const persons = this.state.persons.slice();
         const persons = [ ...this.state.persons ];
-        
+
         persons.splice(personIndex, 1);
         this.setState({persons: persons});
     }
@@ -55,10 +55,12 @@ class App extends Component {
             persons = (
                 <div>
                     {this.state.persons.map((person, i) => {
+                        // "key" property help React to know whitch element need to be updated when state changed and avoid re-rendering the all list
                         return <Person 
                             click={() => this.deletePersonHandler(i)}
                             name={person.name} 
-                            age={person.age} />;
+                            age={person.age}
+                            key={person.id} />;
                     })}
                 </div>
             );
