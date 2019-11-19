@@ -14,23 +14,24 @@ class App extends Component {
         showPersons: false
     }
 
-    nameChangedHandler = (event) => {
-        this.setState({
-            persons: [
-                { name: 'Nash', age: 30 },
-                { name: event.target.value, age: 29 },
-                { name: 'Ray', age: 26 }
-            ]
+    nameChangedHandler = (event, id) => {
+        const persons = this.state.persons.map(person => {
+            if (person.id === id) {
+                person.name = event.target.value;
+            }
+            return person;
         });
+
+        this.setState({ persons: persons });
     }
 
     deletePersonHandler = (personIndex) => {
         // Create a copy to avoid modify the original one outside "setState" method
         // const persons = this.state.persons.slice();
-        const persons = [ ...this.state.persons ];
+        const persons = [...this.state.persons];
 
         persons.splice(personIndex, 1);
-        this.setState({persons: persons});
+        this.setState({ persons: persons });
     }
 
     togglePersonsHandler = () => {
@@ -56,11 +57,12 @@ class App extends Component {
                 <div>
                     {this.state.persons.map((person, i) => {
                         // "key" property help React to know whitch element need to be updated when state changed and avoid re-rendering the all list
-                        return <Person 
+                        return <Person
                             click={() => this.deletePersonHandler(i)}
-                            name={person.name} 
+                            name={person.name}
                             age={person.age}
-                            key={person.id} />;
+                            key={person.id}
+                            changed={(event) => this.nameChangedHandler(event, person.id)} />;
                     })}
                 </div>
             );
