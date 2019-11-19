@@ -58,18 +58,9 @@ class App extends Component {
         if (this.state.showPersons) {
             persons = (
                 <div>
-                    <Person
-                        name={this.state.persons[0].name}
-                        age={this.state.persons[0].age} />
-                    {/* Pass a reference to this.switchNameHandler to the child component in a "clic" property (name can be what we want) */}
-                    <Person
-                        name={this.state.persons[1].name}
-                        age={this.state.persons[1].age}
-                        click={this.switchNameHandler.bind(this, 'Eow')}
-                        changed={this.nameChangedHandler}>My Hobbies: Horsing</Person>
-                    <Person
-                        name={this.state.persons[2].name}
-                        age={this.state.persons[2].age} />
+                    {this.state.persons.map(person => {
+                        return <Person name={person.name} age={person.age} />;
+                    })}
                 </div>
             );
         }
@@ -77,15 +68,10 @@ class App extends Component {
         return (
             <div className="App">
                 <h1>Hello World !</h1>
-                {/* <button onClick={this.switchNameHandler.bind(this, 'Strife')}>Switch Name</button> */}
-                {/* Call the function in an anonymous function to pass data */}
-                <button
-                    style={style}
-                    onClick={this.togglePersonsHandler}>Toggle Persons</button>
+                <button style={style} onClick={this.togglePersonsHandler}>Toggle Persons</button>
                 {persons}
             </div>
         );
-        // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello World !!!!'));
     }
 }
 
