@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Radium, { StyleRoot } from 'radium';
 
 import './App.css';
 import Person from './Person/Person';
@@ -41,6 +40,7 @@ class App extends Component {
     }
 
     render() {
+        // /!\ :hover works only with Radium module
         const buttonStyle = {
             backgroundColor: 'green',
             font: 'inherit',
@@ -90,19 +90,17 @@ class App extends Component {
         }
 
         return (
-            <StyleRoot>
-                <div className="App">
-                    <h1>Hello World !</h1>
-                    <p className={classes.join(' ')}>This is a React App.</p>
-                    <button style={buttonStyle} onClick={this.togglePersonsHandler}>Toggle Persons</button>
-                    {personsElements}
-                </div>
-            </StyleRoot>
+            <div className="App">
+                <h1>Hello World !</h1>
+                <p className={classes.join(' ')}>This is a React App.</p>
+                <button style={buttonStyle} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+                {personsElements}
+            </div>
         );
     }
 }
 
-export default Radium(App);
+export default App;
 
 // import React, { useState } from 'react';
 
