@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import styles from './App.module.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
     state = {
@@ -48,12 +49,21 @@ class App extends Component {
                 <div>
                     {this.state.persons.map((person, i) => {
                         // "key" property help React to know whitch element need to be updated when state changed and avoid re-rendering the all list
-                        return <Person
-                            click={() => this.deletePersonHandler(i)}
-                            name={person.name}
-                            age={person.age}
-                            key={person.id}
-                            changed={(event) => this.nameChangedHandler(event, person.id)} />;
+                        // return <Person
+                        //     click={() => this.deletePersonHandler(i)}
+                        //     name={person.name}
+                        //     age={person.age}
+                        //     key={person.id}
+                        //     changed={(event) => this.nameChangedHandler(event, person.id)} />;
+
+                        // custom ErrorBoundary help us catch error
+                        return <ErrorBoundary key={person.id}>
+                            <Person
+                                click={() => this.deletePersonHandler(i)}
+                                name={person.name}
+                                age={person.age}
+                                changed={(event) => this.nameChangedHandler(event, person.id)} />
+                        </ErrorBoundary>;
                     })}
                 </div>
             );
