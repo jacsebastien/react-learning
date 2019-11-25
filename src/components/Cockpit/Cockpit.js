@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styles from './Cockpit.module.css'
 
-const cockpit = (props) => {
+const Cockpit = (props) => {
+    // Used for every time the component is rendered/updated
+    useEffect(() => {
+        console.log('[Cockpit.js] useEffect');
+        // Http request ...
+    });
+
     const pStyles = [];
     const btnStyles = [styles.button];
 
@@ -27,4 +33,4 @@ const cockpit = (props) => {
     );
 };
 
-export default cockpit;
+export default Cockpit;

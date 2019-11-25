@@ -16,7 +16,8 @@ class App extends Component {
         //         { id: 'tb6rb', name: 'Ray', age: 26 }
         //     ],
         //     otherState: 'Some other value',
-        //     showPersons: false
+        //     showPersons: false,
+        //     appTitle: props.appTitle
         // };
     }
 
