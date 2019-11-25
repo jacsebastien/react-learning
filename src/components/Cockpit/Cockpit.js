@@ -18,19 +18,26 @@ const Cockpit = (props) => {
     // triggered only the first time the component is rendered
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
-
-
-        return () => {
-            console.log('[Cockpit.js] cleanup work in useEffect')
-        }
     }, []);
 
     // "return" is optional and runs when component is destroyed
     useEffect(() => {
+        const timer = setTimeout(() => {
+            alert('Savec data to the cloud !');
+        }, 1000);
+
         return () => {
+            clearTimeout(timer);
             console.log('[Cockpit.js] cleanup work in useEffect')
         }
     }, []);
+
+    // without second argument, it will be called each time the component changes
+    useEffect(() => {
+        return () => {
+            console.log('[Cockpit.js] cleanup work in useEffect')
+        }
+    });
 
     // We can use as many useEffect as we want with different trigger conditions
 
