@@ -18,6 +18,18 @@ const Cockpit = (props) => {
     // triggered only the first time the component is rendered
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
+
+
+        return () => {
+            console.log('[Cockpit.js] cleanup work in useEffect')
+        }
+    }, []);
+
+    // "return" is optional and runs when component is destroyed
+    useEffect(() => {
+        return () => {
+            console.log('[Cockpit.js] cleanup work in useEffect')
+        }
     }, []);
 
     // We can use as many useEffect as we want with different trigger conditions
