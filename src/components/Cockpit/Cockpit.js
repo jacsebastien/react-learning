@@ -3,11 +3,25 @@ import React, { useEffect } from 'react';
 import styles from './Cockpit.module.css'
 
 const Cockpit = (props) => {
-    // Used for every time the component is rendered/updated
+    // Triggered every time the component is rendered/updated
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
         // Http request ...
     });
+
+    // triggered only when persons array changed
+    useEffect(() => {
+        console.log('[Cockpit.js] useEffect');
+        // Http request ...
+    }, [props.persons]);
+
+    // triggered only the first time the component is rendered
+    useEffect(() => {
+        console.log('[Cockpit.js] useEffect');
+    }, []);
+
+    // We can use as many useEffect as we want with different trigger conditions
+
 
     const pStyles = [];
     const btnStyles = [styles.button];
