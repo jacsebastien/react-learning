@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import styles from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
 
 class App extends Component {
     constructor(props) {
@@ -90,7 +90,7 @@ class App extends Component {
         }
 
         return (
-            <WithClass classes={styles.app}>
+            <Fragment>
                 <button onClick={() => {this.setState({showCockpit: false})}}>
                     Hide Cockpit
                 </button>
@@ -101,9 +101,9 @@ class App extends Component {
                         personsLength={this.state.persons.length}
                         clicked={this.togglePersonsHandler} /> : null}
                 {personsElements}
-            </WithClass>
+            </Fragment>
         );
     }
 }
 
-export default App;
+export default withClass(App, styles.app);
