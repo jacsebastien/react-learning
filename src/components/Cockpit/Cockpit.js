@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import styles from './Cockpit.module.css';
 
 const Cockpit = (props) => {
+    const toggleButtonRef = useRef(null);
+
     // // Triggered every time the component is rendered/updated
     // useEffect(() => {
     //     console.log('[Cockpit.js] useEffect');
@@ -22,12 +24,10 @@ const Cockpit = (props) => {
 
     // "return" is optional and runs when component is destroyed
     useEffect(() => {
-        const timer = setTimeout(() => {
-            console.log('Saved data to the cloud !');
-        }, 1000);
+        console.log('[Cockpit.js] useEffect');
+        toggleButtonRef.current.click();
 
         return () => {
-            clearTimeout(timer);
             console.log('[Cockpit.js] cleanup work in useEffect');
         };
     }, []);
@@ -61,7 +61,12 @@ const Cockpit = (props) => {
         <div>
             <h1>{props.title}</h1>
             <p className={pStyles.join(' ')}>This is a React App.</p>
-            <button className={btnStyles.join(' ')} onClick={props.clicked}>Toggle Persons</button>
+            <button
+                ref={toggleButtonRef}
+                className={btnStyles.join(' ')}
+                onClick={props.clicked}>
+                Toggle Persons
+            </button>
         </div>
     );
 };
