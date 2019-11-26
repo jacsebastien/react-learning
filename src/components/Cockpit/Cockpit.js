@@ -23,7 +23,7 @@ const Cockpit = (props) => {
     // "return" is optional and runs when component is destroyed
     useEffect(() => {
         const timer = setTimeout(() => {
-            alert('Savec data to the cloud !');
+            alert('Saved data to the cloud !');
         }, 1000);
 
         return () => {
@@ -49,10 +49,10 @@ const Cockpit = (props) => {
         btnStyles.push(styles.red);
     }
 
-    if(props.persons.length <= 2) {
+    if(props.personsLength <= 2) {
         pStyles.push(styles.red);
     }
-    if(props.persons.length <= 1) {
+    if(props.personsLength <= 1) {
         pStyles.push(styles.bold);
     }
 
@@ -66,4 +66,5 @@ const Cockpit = (props) => {
     );
 };
 
-export default Cockpit;
+// Re render the component only if inputs changes
+export default React.memo(Cockpit);
