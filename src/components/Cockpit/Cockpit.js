@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 
 import styles from './Cockpit.module.css';
+import AuthContext from '../../context/auth-context';
 
 const Cockpit = (props) => {
     const toggleButtonRef = useRef(null);
+    // Connect this functionnal component to AuthContext trough authContext property
+    const authContext = useContext(AuthContext);
 
     // // Triggered every time the component is rendered/updated
     // useEffect(() => {
@@ -32,12 +35,14 @@ const Cockpit = (props) => {
         };
     }, []);
 
-    // // without second argument, it will be called each time the component changes
-    // useEffect(() => {
-    //     return () => {
-    //         console.log('[Cockpit.js] cleanup work in useEffect')
-    //     }
-    // });
+    // without second argument, it will be called each time the component changes
+    useEffect(() => {
+        console.log('[Cockpit.js] 2nd useEffect');
+        console.log(authContext);
+        return () => {
+            console.log('[Cockpit.js] cleanup work in 2nd useEffect');
+        };
+    });
 
     // We can use as many useEffect as we want with different trigger conditions
 
@@ -67,7 +72,8 @@ const Cockpit = (props) => {
                 onClick={props.clicked}>
                 Toggle Persons
             </button>
-            <button onClick={props.login}>Log in</button>
+            {/* Bind onClick to login method of context wich is binded to loginHandler */}
+            {<button className={styles.button} onClick={authContext.login}>Log in</button>}
         </div>
     );
 };
