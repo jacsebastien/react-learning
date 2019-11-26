@@ -23,7 +23,7 @@ const Cockpit = (props) => {
     // "return" is optional and runs when component is destroyed
     useEffect(() => {
         const timer = setTimeout(() => {
-            alert('Saved data to the cloud !');
+            console.log('Saved data to the cloud !');
         }, 1000);
 
         return () => {
