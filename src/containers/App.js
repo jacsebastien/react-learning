@@ -31,7 +31,8 @@ class App extends Component {
         ],
         otherState: 'Some other value',
         showPersons: false,
-        showCockpit: true
+        showCockpit: true,
+        changeCounter: 0
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -60,7 +61,19 @@ class App extends Component {
             return person;
         });
 
-        this.setState({ persons: persons });
+        // BAD WAY to use setState when it depends on previous state /!\
+        // this.setState({
+        //     persons: persons,
+        //     changeCounter: this.state.changeCounter + 1
+        // });
+
+        // Correct way (avoid having an unexpected previous state if it takes longer than expected to update)
+        this.setState((prevState, props) => {
+            return {
+                persons: persons,
+                changeCounter: prevState.changeCounter + 1
+            };
+        });
     }
 
     deletePersonHandler = (personIndex) => {
