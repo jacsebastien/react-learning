@@ -3,7 +3,8 @@ import React from 'react';
 const withClass = (WrappedComponent, className) => {
     return props => (
         <div className={className}>
-            <WrappedComponent />
+            {/* send all props to the wrapped compnent */}
+            <WrappedComponent { ...props } />
         </div>
     );
 };
