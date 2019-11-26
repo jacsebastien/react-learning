@@ -3,22 +3,22 @@ import React, { useEffect } from 'react';
 import styles from './Cockpit.module.css'
 
 const Cockpit = (props) => {
-    // Triggered every time the component is rendered/updated
-    useEffect(() => {
-        console.log('[Cockpit.js] useEffect');
-        // Http request ...
-    });
+    // // Triggered every time the component is rendered/updated
+    // useEffect(() => {
+    //     console.log('[Cockpit.js] useEffect');
+    //     // Http request ...
+    // });
 
-    // triggered only when persons array changed
-    useEffect(() => {
-        console.log('[Cockpit.js] useEffect');
-        // Http request ...
-    }, [props.persons]);
+    // // triggered only when persons array changed
+    // useEffect(() => {
+    //     console.log('[Cockpit.js] useEffect');
+    //     // Http request ...
+    // }, [props.persons]);
 
-    // triggered only the first time the component is rendered
-    useEffect(() => {
-        console.log('[Cockpit.js] useEffect');
-    }, []);
+    // // triggered only the first time the component is rendered
+    // useEffect(() => {
+    //     console.log('[Cockpit.js] useEffect');
+    // }, []);
 
     // "return" is optional and runs when component is destroyed
     useEffect(() => {
@@ -32,12 +32,12 @@ const Cockpit = (props) => {
         }
     }, []);
 
-    // without second argument, it will be called each time the component changes
-    useEffect(() => {
-        return () => {
-            console.log('[Cockpit.js] cleanup work in useEffect')
-        }
-    });
+    // // without second argument, it will be called each time the component changes
+    // useEffect(() => {
+    //     return () => {
+    //         console.log('[Cockpit.js] cleanup work in useEffect')
+    //     }
+    // });
 
     // We can use as many useEffect as we want with different trigger conditions
 
