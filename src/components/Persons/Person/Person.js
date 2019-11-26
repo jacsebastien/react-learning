@@ -47,6 +47,7 @@ class Person extends Component {
         // Use React Fragment as an equivalent of custom Aux wrapper
         return (
             <Fragment>
+                {this.props.isAuth ? <p>Authenticated !</p> : <p>Please log in.</p>}
                 <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old !</p>
                 <p>{this.props.children}</p>
                 {/* 2 way binding */}

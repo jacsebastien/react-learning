@@ -32,7 +32,8 @@ class App extends Component {
         otherState: 'Some other value',
         showPersons: false,
         showCockpit: true,
-        changeCounter: 0
+        changeCounter: 0,
+        authenticated: false
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -45,7 +46,7 @@ class App extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('[App.js] shouldComponentUpdate');
+        console.log('[App.js] shouldComponentUpdate', nextProps, nextState);
         return true;
     }
 
@@ -90,6 +91,10 @@ class App extends Component {
         this.setState({ showPersons: !doesShow });
     }
 
+    loginHandler = () => {
+        this.setState({authenticated: true});
+    }
+
     render() {
         console.log('[App.js] render');
         let personsElements = null;
@@ -98,13 +103,15 @@ class App extends Component {
                 <Persons
                     persons={this.state.persons}
                     clicked={this.deletePersonHandler}
-                    changed={this.nameChangedHandler} />
+                    changed={this.nameChangedHandler}
+                    isAuth={this.state.authenticated}
+                />
             );
         }
 
         return (
             <Fragment>
-                <button onClick={() => {this.setState({showCockpit: false})}}>
+                <button onClick={() => {this.setState({showCockpit: false});}}>
                     Hide Cockpit
                 </button>
                 {this.state.showCockpit ?
@@ -112,7 +119,9 @@ class App extends Component {
                         title={this.props.appTitle} // Passed to App.js from index.js
                         showPersons={this.state.showPersons}
                         personsLength={this.state.persons.length}
-                        clicked={this.togglePersonsHandler} /> : null}
+                        clicked={this.togglePersonsHandler}
+                        login={this.loginHandler}
+                    /> : null}
                 {personsElements}
             </Fragment>
         );
