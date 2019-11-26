@@ -6,7 +6,17 @@ import withClass from '../../../hoc/withClass';
 import styles from './Person.module.css';
 
 class Person extends Component {
-    render() {
+    constructor(props) {
+        super(props);
+        this.inputElementRef = React.createRef();
+    }
+
+    componentDidMount() {
+        // this.inputElement.focus();
+        this.inputElementRef.current.focus();
+    }
+
+    render () {
         console.log('[Person.js] rendering...');
 
         // // Can return multiple JSX elements without wrapping them thx to an array
@@ -21,7 +31,6 @@ class Person extends Component {
         //     <Auxiliary>
         //         <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old !</p>
         //         <p>{this.props.children}</p>
-        //         {/* 2 way binding */}
         //         <input type="text" onChange={this.props.changed} value={this.props.name} />
         //     </Auxiliary>
         // );
@@ -31,7 +40,6 @@ class Person extends Component {
         //     <div className={styles.person}>
         //         <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old !</p>
         //         <p>{this.props.children}</p>
-        //         {/* 2 way binding */}
         //         <input type="text" onChange={this.props.changed} value={this.props.name} />
         //     </div>
         // );
@@ -42,17 +50,23 @@ class Person extends Component {
                 <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old !</p>
                 <p>{this.props.children}</p>
                 {/* 2 way binding */}
-                <input type="text" onChange={this.props.changed} value={this.props.name} />
+                <input
+                    type="text"
+                    // ref={(inputEl) => { this.inputEl = inputEl; }}
+                    ref={this.inputElementRef}
+                    onChange={this.props.changed}
+                    value={this.props.name} />
             </Fragment>
         );
     }
 }
 
-Person.prototype = {
+Person.propTypes = {
     click: PropTypes.func,
     name: PropTypes.string,
     age: PropTypes.number,
-    changed: PropTypes.func
+    changed: PropTypes.func,
+    children: PropTypes.node
 };
 
 export default withClass(Person, styles.person);

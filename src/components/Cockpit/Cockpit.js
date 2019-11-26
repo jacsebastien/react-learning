@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import styles from './Cockpit.module.css'
+import styles from './Cockpit.module.css';
 
 const Cockpit = (props) => {
     // // Triggered every time the component is rendered/updated
@@ -28,8 +28,8 @@ const Cockpit = (props) => {
 
         return () => {
             clearTimeout(timer);
-            console.log('[Cockpit.js] cleanup work in useEffect')
-        }
+            console.log('[Cockpit.js] cleanup work in useEffect');
+        };
     }, []);
 
     // // without second argument, it will be called each time the component changes

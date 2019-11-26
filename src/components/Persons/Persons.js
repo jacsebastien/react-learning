@@ -4,7 +4,7 @@ import Person from './Person/Person';
 
 class Persons extends PureComponent {
     componentWillUnmount() {
-        console.log('[Persons.js] componentWillUnmount')
+        console.log('[Persons.js] componentWillUnmount');
     }
 
     // shouldComponentUpdate(nextProps, nextState) {
