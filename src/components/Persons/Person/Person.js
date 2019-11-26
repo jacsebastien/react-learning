@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 // import Aux from '../../../hoc/Auxiliary';
 import withClass from '../../../hoc/withClass';
@@ -25,16 +26,6 @@ class Person extends Component {
         //     </Auxiliary>
         // );
 
-        // Use React Fragment as an equivalent of custom Aux wrapper
-        return (
-            <Fragment>
-                <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old !</p>
-                <p>{this.props.children}</p>
-                {/* 2 way binding */}
-                <input type="text" onChange={this.props.changed} value={this.props.name} />
-            </Fragment>
-        );
-
         // Wrap multiple JSX elements into one main element
         // return (
         //     <div className={styles.person}>
@@ -44,7 +35,24 @@ class Person extends Component {
         //         <input type="text" onChange={this.props.changed} value={this.props.name} />
         //     </div>
         // );
+
+        // Use React Fragment as an equivalent of custom Aux wrapper
+        return (
+            <Fragment>
+                <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old !</p>
+                <p>{this.props.children}</p>
+                {/* 2 way binding */}
+                <input type="text" onChange={this.props.changed} value={this.props.name} />
+            </Fragment>
+        );
     }
 }
+
+Person.prototype = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    changed: PropTypes.func
+};
 
 export default withClass(Person, styles.person);
