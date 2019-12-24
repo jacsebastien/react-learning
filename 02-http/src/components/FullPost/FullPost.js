@@ -11,7 +11,7 @@ class FullPost extends Component {
     componentDidUpdate() {
         // Test to avoid infinite loop update 
         if (this.props.id && (!this.state.loadedPost || this.state.loadedPost.id !== this.props.id)) {
-            Axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+            Axios.get('posts/' + this.props.id)
                 .then(response => {
                     // console.log(response);
                     this.setState({ loadedPost: response.data });
@@ -20,7 +20,7 @@ class FullPost extends Component {
     }
 
     deletePostHandler = () => {
-        Axios.delete('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+        Axios.delete('posts/' + this.props.id)
             .then(response => {
                 console.log(response);
             });
