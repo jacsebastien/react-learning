@@ -10,8 +10,16 @@ class FullPost extends Component {
 
     componentDidMount() {
         console.log(this.props);
+        this.loadData();
+    }
+
+    componentDidUpdate() {
+        this.loadData();
+    }
+
+    loadData() {
         // Test to avoid infinite loop update
-        if (this.props.match.params.id && (!this.state.loadedPost || this.state.loadedPost.id !== this.props.match.params.id)) {
+        if (this.props.match.params.id && (!this.state.loadedPost || this.state.loadedPost.id !== +this.props.match.params.id)) {
             Axios.get('posts/' + this.props.match.params.id)
                 .then(response => {
                     // console.log(response);
