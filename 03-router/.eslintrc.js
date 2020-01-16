@@ -42,6 +42,7 @@ module.exports = {
         'no-console': 'off',
         'linebreak-style': 'off',
         'react/no-unescaped-entities': 'off',
-        'react/prop-types': 'off'
+        'react/prop-types': 'off',
+        'react/display-name': 'off'
     }
 };
