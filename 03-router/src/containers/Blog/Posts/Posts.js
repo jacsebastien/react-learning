@@ -14,7 +14,7 @@ class Posts extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props);
+        // console.log(this.props);
         Axios.get('posts')
             .then(response => {
                 const posts = response.data.slice(0, 4);
@@ -27,7 +27,7 @@ class Posts extends Component {
                 this.setState({ posts: updatedPosts });
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
                 // this.setState({error: true});
             });
     }
