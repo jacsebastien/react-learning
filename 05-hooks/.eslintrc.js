@@ -43,6 +43,8 @@ module.exports = {
         'linebreak-style': 'off',
         'react/no-unescaped-entities': 'off',
         'react/prop-types': 'off',
-        'react/display-name': 'off'
+        'react/display-name': 'off',
+        'indent': 'warn',
+        'no-unused-vars': 'warn'
     }
 };
