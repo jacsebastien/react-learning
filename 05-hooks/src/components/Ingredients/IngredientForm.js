@@ -4,10 +4,9 @@ import Card from '../UI/Card';
 import './IngredientForm.css';
 
 const IngredientForm = React.memo(props => {
-    const [inputState, setInputState] = useState({
-        title: '',
-        amount: ''
-    });
+    // const [inputState, setInputState] = useState({ title: '', amount: '' });
+    const [titleState, setTitleState] = useState('');
+    const [amountState, setAmountState] = useState('');
 
     const submitHandler = event => {
         event.preventDefault();
@@ -23,15 +22,18 @@ const IngredientForm = React.memo(props => {
                         <input
                             type="text"
                             id="title"
-                            value={inputState.title}
+                            value={titleState}
                             onChange={event => {
-                                // !! Never use event object directly inside setState !!
+                                // !! Never use event object directly inside setState on inner closure functions !!
                                 // Need to be stored in a property outside of setState method to avoid React locking "event" object update
-                                const newTitle = event.target.value;
-                                setInputState(prevState => ({
-                                    title: newTitle,
-                                    amount: prevState.amount
-                                }));
+                                // const newTitle = event.target.value;
+                                // setInputState(prevState => ({
+                                //     title: newTitle,
+                                //     amount: prevState.amount
+                                // }));
+
+                                // But with a normal simpler setState it's ok
+                                setTitleState(event.target.value);
                             }}
                         />
                     </div>
@@ -40,13 +42,9 @@ const IngredientForm = React.memo(props => {
                         <input
                             type="number"
                             id="amount"
-                            value={inputState.amount}
+                            value={amountState}
                             onChange={event => {
-                                const newAmount = event.target.value;
-                                setInputState(prevState => ({
-                                    amount: newAmount,
-                                    title: prevState.title
-                                }));
+                                setAmountState(event.target.value);
                             }}
                         />
                     </div>
