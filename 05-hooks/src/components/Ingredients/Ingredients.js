@@ -23,6 +23,15 @@ const Ingredients = () => {
             });
     }, []);
 
+    // Called ONLY when ingredientsState changed
+    // useEffect(() => {
+    //     console.log('RENDERING INGREDIENTS', ingredientsState);
+    // }, [ingredientsState]);
+
+    const filterIngredientsHandler = filteredIngredients => {
+        setIngredientsState(filteredIngredients);
+    };
+
     const addIngredientHandler = ingredient => {
         fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json', {
             method: 'POST',
@@ -45,7 +54,7 @@ const Ingredients = () => {
             <IngredientForm onAddIngredient={addIngredientHandler} />
 
             <section>
-                <Search />
+                <Search afterIngredientsLoaded={filterIngredientsHandler} />
                 <IngredientList ingredients={ingredientsState} onRemoveItem={removeIngredientHandler} />
             </section>
         </div>
