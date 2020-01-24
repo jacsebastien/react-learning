@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
@@ -10,27 +10,28 @@ const Ingredients = () => {
 
     // By default, useEffet is called on first component render AND on each component update
     // with [] as a second argument, it will be called ONLY on first component render
-    useEffect(() => {
-        fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json')
-            .then(response => response.json())
-            .then(body => {
-                const loadedIngredients = Object.keys(body).map(key => ({
-                    id: key,
-                    title: body[key].title,
-                    amount: body[key].amount
-                }));
-                setIngredientsState(loadedIngredients);
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json')
+    //         .then(response => response.json())
+    //         .then(body => {
+    //             const loadedIngredients = Object.keys(body).map(key => ({
+    //                 id: key,
+    //                 title: body[key].title,
+    //                 amount: body[key].amount
+    //             }));
+    //             setIngredientsState(loadedIngredients);
+    //         });
+    // }, []);
 
     // Called ONLY when ingredientsState changed
     // useEffect(() => {
     //     console.log('RENDERING INGREDIENTS', ingredientsState);
     // }, [ingredientsState]);
 
-    const filterIngredientsHandler = filteredIngredients => {
+    // useCallback avoid function to be recreated on each re rendering of the component
+    const filterIngredientsHandler = useCallback(filteredIngredients => {
         setIngredientsState(filteredIngredients);
-    };
+    }, []);
 
     const addIngredientHandler = ingredient => {
         fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json', {

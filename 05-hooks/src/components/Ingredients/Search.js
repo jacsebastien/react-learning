@@ -8,7 +8,7 @@ const Search = React.memo(props => {
     const [filterState, setFilterState] = useState('');
 
     useEffect(() => {
-        const query = filterState.length === 0 ? '' : `?orderBy="title"&equalTo="${filterState}`;
+        const query = filterState.length === 0 ? '' : `?orderBy="title"&equalTo="${filterState.trim()}"`;
 
         fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json' + query)
             .then(response => response.json())
