@@ -47,7 +47,11 @@ const Ingredients = () => {
     };
 
     const removeIngredientHandler = id => {
-        setIngredientsState(prevState => prevState.filter(ingredient => ingredient.id !== id));
+        fetch(`https://react-hooks-8b80e.firebaseio.com/ingredients/${id}.json`, {
+            method: 'DELETE'
+        }).then(() => {
+            setIngredientsState(prevState => prevState.filter(ingredient => ingredient.id !== id));
+        });
     };
 
     return (
