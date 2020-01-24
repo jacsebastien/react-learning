@@ -9,12 +9,16 @@ const Ingredients = () => {
     const [ingredientsState, setIngredientsState] = useState([]);
 
     const addIngredientHandler = ingredient => {
-        const newIngredient = {
-            id: ingredientsState.length ? ingredientsState.length : 0,
-            ...ingredient
-        };
-
-        setIngredientsState(prevState => [...prevState, newIngredient]);
+        fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json', {
+            method: 'POST',
+            body: JSON.stringify(ingredient),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => {
+            return response.json();
+        }).then(body => {
+            // Firebase create a "name" property which one we can use as an id
+            setIngredientsState(prevState => [ ...prevState, { id: body.name, ...ingredient } ]);
+        });
     };
 
     const removeIngredientHandler = id => {
