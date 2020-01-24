@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
 
-// function Ingredients() {
+// function Ingredients() { }
 const Ingredients = () => {
     const [ingredientsState, setIngredientsState] = useState([]);
+
+    // By default, useEffet is called on first component render AND on each component update
+    // with [] as a second argument, it will be called ONLY on first component render
+    useEffect(() => {
+        fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json')
+            .then(response => response.json())
+            .then(body => {
+                const loadedIngredients = Object.keys(body).map(key => ({
+                    id: key,
+                    title: body[key].title,
+                    amount: body[key].amount
+                }));
+                setIngredientsState(loadedIngredients);
+            });
+    }, []);
 
     const addIngredientHandler = ingredient => {
         fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json', {
@@ -17,7 +32,7 @@ const Ingredients = () => {
             return response.json();
         }).then(body => {
             // Firebase create a "name" property which one we can use as an id
-            setIngredientsState(prevState => [ ...prevState, { id: body.name, ...ingredient } ]);
+            setIngredientsState(prevState => [...prevState, { id: body.name, ...ingredient }]);
         });
     };
 
