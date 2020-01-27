@@ -3,10 +3,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
+import ErrorModal from '../UI/ErrorModal';
 
 // function Ingredients() { }
 const Ingredients = () => {
     const [ingredientsState, setIngredientsState] = useState([]);
+    const [isLoading, setLoadingState] = useState(false);
+    const [error, setErrorState] = useState();
 
     // By default, useEffet is called on first component render AND on each component update
     // with [] as a second argument, it will be called ONLY on first component render
@@ -34,6 +37,7 @@ const Ingredients = () => {
     }, []);
 
     const addIngredientHandler = ingredient => {
+        setLoadingState(true);
         fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json', {
             method: 'POST',
             body: JSON.stringify(ingredient),
@@ -41,22 +45,34 @@ const Ingredients = () => {
         }).then(response => {
             return response.json();
         }).then(body => {
+            setLoadingState(false);
             // Firebase create a "name" property which one we can use as an id
             setIngredientsState(prevState => [...prevState, { id: body.name, ...ingredient }]);
         });
     };
 
     const removeIngredientHandler = id => {
-        fetch(`https://react-hooks-8b80e.firebaseio.com/ingredients/${id}.json`, {
+        setLoadingState(true);
+        fetch(`https://react-hooks-8b80e.firebaseio.com/ingredients/${id}`, {
             method: 'DELETE'
         }).then(() => {
+            setLoadingState(false);
             setIngredientsState(prevState => prevState.filter(ingredient => ingredient.id !== id));
+        }).catch(error => {
+            console.log(error.message);
+            setLoadingState(false);
+            setErrorState('Something went wrong !');
         });
+    };
+
+    const clearError = () => {
+        setErrorState(null);
     };
 
     return (
         <div className="App">
-            <IngredientForm onAddIngredient={addIngredientHandler} />
+            {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+            <IngredientForm onAddIngredient={addIngredientHandler} isLoading={isLoading} />
 
             <section>
                 <Search afterIngredientsLoaded={filterIngredientsHandler} />
