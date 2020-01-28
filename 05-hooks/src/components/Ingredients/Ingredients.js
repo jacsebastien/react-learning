@@ -1,9 +1,22 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useReducer } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
 import IngredientList from './IngredientList';
 import ErrorModal from '../UI/ErrorModal';
+
+const ingredientReducer = (currentIngredients, action) => {
+    switch (action.type) {
+    case 'SET':
+        return action.ingredients;
+    case 'ADD':
+        return [...currentIngredients, action.ingredient];
+    case 'DELETE':
+        return currentIngredients.filter(i => i.id !== action.id);
+    default:
+        throw new Error('Oops, action not handled !');
+    }
+};
 
 // function Ingredients() { }
 const Ingredients = () => {
