@@ -20,7 +20,8 @@ const ingredientReducer = (currentIngredients, action) => {
 
 // function Ingredients() { }
 const Ingredients = () => {
-    const [ingredientsState, setIngredientsState] = useState([]);
+    const [ingredients, dispatch] = useReducer(ingredientReducer, []);
+    // const [ingredients, setIngredientsState] = useState([]);
     const [isLoading, setLoadingState] = useState(false);
     const [error, setErrorState] = useState();
 
@@ -46,7 +47,8 @@ const Ingredients = () => {
 
     // useCallback avoid function to be recreated on each re rendering of the component
     const filterIngredientsHandler = useCallback(filteredIngredients => {
-        setIngredientsState(filteredIngredients);
+        // setIngredientsState(filteredIngredients);
+        dispatch({type: 'SET', ingredients: filteredIngredients});  // Use reduced in place of state
     }, []);
 
     const addIngredientHandler = ingredient => {
@@ -60,17 +62,19 @@ const Ingredients = () => {
         }).then(body => {
             setLoadingState(false);
             // Firebase create a "name" property which one we can use as an id
-            setIngredientsState(prevState => [...prevState, { id: body.name, ...ingredient }]);
+            // setIngredientsState(prevState => [...prevState, { id: body.name, ...ingredient }]);
+            dispatch({type: 'ADD', ingredient: { id: body.name, ...ingredient }});
         });
     };
 
     const removeIngredientHandler = id => {
         setLoadingState(true);
-        fetch(`https://react-hooks-8b80e.firebaseio.com/ingredients/${id}`, {
+        fetch(`https://react-hooks-8b80e.firebaseio.com/ingredients/${id}.json`, {
             method: 'DELETE'
         }).then(() => {
             setLoadingState(false);
-            setIngredientsState(prevState => prevState.filter(ingredient => ingredient.id !== id));
+            // setIngredientsState(prevState => prevState.filter(ingredient => ingredient.id !== id));
+            dispatch({type: 'DELETE', id: id});
         }).catch(error => {
             console.log(error.message);
             setLoadingState(false);
@@ -89,7 +93,7 @@ const Ingredients = () => {
 
             <section>
                 <Search afterIngredientsLoaded={filterIngredientsHandler} />
-                <IngredientList ingredients={ingredientsState} onRemoveItem={removeIngredientHandler} />
+                <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientHandler} />
             </section>
         </div>
     );
