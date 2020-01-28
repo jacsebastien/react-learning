@@ -24,8 +24,9 @@ module.exports = {
     ],
     'rules': {
         'indent': [
-            'error',
-            4
+            'warn',
+            4,
+            { "SwitchCase": 1 }
         ],
         'linebreak-style': [
             'error',
@@ -44,7 +45,6 @@ module.exports = {
         'react/no-unescaped-entities': 'off',
         'react/prop-types': 'off',
         'react/display-name': 'off',
-        'indent': 'warn',
         'no-unused-vars': 'warn'
     }
 };
