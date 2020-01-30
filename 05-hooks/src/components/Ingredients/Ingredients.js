@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
+import React, { useState, useEffect, useCallback, useReducer, useMemo } from 'react';
 
 import IngredientForm from './IngredientForm';
 import Search from './Search';
@@ -62,12 +62,13 @@ const Ingredients = () => {
     // }, [ingredientsState]);
 
     // useCallback avoid function to be recreated on each re rendering of the component
+    // Works like useEffect, with [] of dependecies as a second argument, it will be created only on component init
     const filterIngredientsHandler = useCallback((filteredIngredients) => {
         // setIngredientsState(filteredIngredients);
         dispatch({ type: 'SET', ingredients: filteredIngredients }); // Use reduced in place of state
     }, []);
 
-    const addIngredientHandler = (ingredient) => {
+    const addIngredientHandler = useCallback((ingredient) => {
         // setLoadingState(true);
         dispatchHttpState({ type: 'SEND' });
         fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json', {
@@ -86,9 +87,9 @@ const Ingredients = () => {
                 // setIngredientsState(prevState => [...prevState, { id: body.name, ...ingredient }]);
                 dispatch({ type: 'ADD', ingredient: { id: body.name, ...ingredient } });
             });
-    };
+    }, []);
 
-    const removeIngredientHandler = (id) => {
+    const removeIngredientHandler = useCallback((id) => {
         // setLoadingState(true);
         dispatchHttpState({ type: 'SEND' });
 
@@ -108,12 +109,17 @@ const Ingredients = () => {
                 // setErrorState('Something went wrong !');
                 dispatchHttpState({ type: 'ERROR', error: 'Something went wrong !' });
             });
-    };
+    }, []);
 
-    const clearError = () => {
+    const clearError = useCallback(() => {
         // setErrorState(null);
         dispatchHttpState({ type: 'CLEAR' });
-    };
+    }, []);
+
+    // rebuild component only when one of the dependencies changes (alternative of React.memo() inside components)
+    const ingredientsList = useMemo(() => {
+        return <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientHandler} />;
+    }, [ingredients, removeIngredientHandler]);
 
     return (
         <div className="App">
@@ -124,7 +130,7 @@ const Ingredients = () => {
 
             <section>
                 <Search afterIngredientsLoaded={filterIngredientsHandler} />
-                <IngredientList ingredients={ingredients} onRemoveItem={removeIngredientHandler} />
+                {ingredientsList}
             </section>
         </div>
     );
