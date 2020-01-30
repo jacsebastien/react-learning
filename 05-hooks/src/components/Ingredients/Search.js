@@ -16,11 +16,11 @@ const Search = React.memo(props => {
                 fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json' + query)
                     .then(response => response.json())
                     .then(body => {
-                        const loadedIngredients = Object.keys(body).map(key => ({
+                        const loadedIngredients = body ? Object.keys(body).map(key => ({
                             id: key,
                             title: body[key].title,
                             amount: body[key].amount
-                        }));
+                        })) : [];
 
                         afterIngredientsLoaded(loadedIngredients);
                     });

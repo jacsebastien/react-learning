@@ -22,7 +22,7 @@ const ingredientReducer = (currentIngredients, action) => {
 // function Ingredients() { }
 const Ingredients = () => {
     const [ ingredients, dispatch ] = useReducer(ingredientReducer, []);
-    const {isLoading, error, data, sendRequest} = useHttp();
+    const {isLoading, data, error, requestExtra, requestIdentifier, sendRequest} = useHttp();
 
     // const [ingredients, setIngredientsState] = useState([]);
     // const [ isLoading, setLoadingState ] = useState(false);
@@ -43,10 +43,20 @@ const Ingredients = () => {
     //         });
     // }, []);
 
-    // Called ONLY when ingredientsState changed
-    // useEffect(() => {
-    //     console.log('RENDERING INGREDIENTS', ingredientsState);
-    // }, [ingredientsState]);
+    // Called ONLY when data changed from useHttp()
+    useEffect(() => {
+        if(!isLoading && !error) {
+            switch(requestIdentifier) {
+                case 'REMOVE_INGREDIENT':
+                    dispatch({ type: 'DELETE', id: requestExtra });
+                    break;
+                case 'ADD_INGREDIENT':
+                    dispatch({ type: 'ADD', ingredient: { id: data.name, ...requestExtra } });
+                    break;
+                // default:
+            }
+        }
+    }, [data, requestExtra, requestIdentifier, isLoading, error]);
 
     // useCallback avoid function to be recreated on each re rendering of the component
     // Works like useEffect, with [] of dependecies as a second argument, it will be created only on component init
@@ -56,6 +66,12 @@ const Ingredients = () => {
     }, []);
 
     const addIngredientHandler = useCallback((ingredient) => {
+        sendRequest(
+            'https://react-hooks-8b80e.firebaseio.com/ingredients.json',
+            'POST',
+            JSON.stringify(ingredient),
+            ingredient,
+            'ADD_INGREDIENT');
         // setLoadingState(true);
         // dispatchHttpState({ type: 'SEND' });
         // fetch('https://react-hooks-8b80e.firebaseio.com/ingredients.json', {
@@ -74,9 +90,15 @@ const Ingredients = () => {
         //         // setIngredientsState(prevState => [...prevState, { id: body.name, ...ingredient }]);
         //         dispatch({ type: 'ADD', ingredient: { id: body.name, ...ingredient } });
         //     });
-    }, []);
+    }, [sendRequest]);
 
     const removeIngredientHandler = useCallback((id) => {
+        sendRequest(
+            `https://react-hooks-8b80e.firebaseio.com/ingredients/${id}.json`,
+            'DELETE',
+            null,
+            id,
+            'REMOVE_INGREDIENT');
         // setLoadingState(true);
         // dispatchHttpState({ type: 'SEND' });
 
@@ -96,9 +118,6 @@ const Ingredients = () => {
         //         // setErrorState('Something went wrong !');
         //         dispatchHttpState({ type: 'ERROR', error: 'Something went wrong !' });
         //     });
-        sendRequest(
-            `https://react-hooks-8b80e.firebaseio.com/ingredients/${id}.json`,
-            'DELETE');
     }, [sendRequest]);
 
     const clearError = useCallback(() => {
