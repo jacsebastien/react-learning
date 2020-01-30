@@ -22,7 +22,7 @@ const ingredientReducer = (currentIngredients, action) => {
 // function Ingredients() { }
 const Ingredients = () => {
     const [ ingredients, dispatch ] = useReducer(ingredientReducer, []);
-    const {isLoading, data, error, requestExtra, requestIdentifier, sendRequest} = useHttp();
+    const {isLoading, data, error, requestExtra, requestIdentifier, sendRequest, clearRequest} = useHttp();
 
     // const [ingredients, setIngredientsState] = useState([]);
     // const [ isLoading, setLoadingState ] = useState(false);
@@ -120,10 +120,10 @@ const Ingredients = () => {
         //     });
     }, [sendRequest]);
 
-    const clearError = useCallback(() => {
-        // setErrorState(null);
-        // dispatchHttpState({ type: 'CLEAR' });
-    }, []);
+    // const clearError = useCallback(() => {
+    //     // setErrorState(null);
+    //     // dispatchHttpState({ type: 'CLEAR' });
+    // }, []);
 
     // rebuild component only when one of the dependencies changes (alternative of React.memo() inside components)
     const ingredientsList = useMemo(() => {
@@ -134,7 +134,7 @@ const Ingredients = () => {
         <div className="App">
             {/* {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>} */}
             {/* <IngredientForm onAddIngredient={addIngredientHandler} isLoading={isLoading} /> */}
-            {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+            {error && <ErrorModal onClose={clearRequest}>{error}</ErrorModal>}
             <IngredientForm onAddIngredient={addIngredientHandler} isLoading={isLoading} />
 
             <section>

@@ -1,5 +1,13 @@
 import { useReducer, useCallback } from 'react';
 
+const initialState = {
+    loading: false,
+    error: null,
+    data: null,
+    extra: null,
+    identifier: null
+};
+
 const httpReducer = (currentState, action) => {
     switch (action.type) {
         case 'SEND':
@@ -9,23 +17,19 @@ const httpReducer = (currentState, action) => {
         case 'ERROR':
             return { loading: false, error: action.error };
         case 'CLEAR':
-            return { ...currentState, error: null };
+            return initialState;
         default:
             throw new Error('Oops, action not handled !');
     }
 };
 
 const useHttp = () => {
-    const [httpState, dispatchHttpState] = useReducer(httpReducer, {
-        loading: false,
-        error: null,
-        data: null,
-        extra: null,
-        identifier: null
-    });
+    const [httpState, dispatchHttpState] = useReducer(httpReducer, initialState);
+
+    const clear = useCallback(() => dispatchHttpState({ type: 'CLEAR' }), []);
 
     const sendRequest = useCallback((url, method, body, extra, identifier) => {
-        dispatchHttpState({ type: 'SEND'});
+        dispatchHttpState({ type: 'SEND' });
 
         fetch(url, {
             method: method,
@@ -46,7 +50,8 @@ const useHttp = () => {
         error: httpState.error,
         requestExtra: httpState.extra,
         requestIdentifier: httpState.identifier,
-        sendRequest: sendRequest
+        sendRequest: sendRequest,
+        clearRequest: clear
     };
 };
 
