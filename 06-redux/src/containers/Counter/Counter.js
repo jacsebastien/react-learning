@@ -1,49 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
 
-class Counter extends Component {
-    state = {
-        counter: 0
-    }
+const Counter = props => {
+    return (
+        <div>
+            <CounterOutput value={props.ctr} /> {/* Access props updated by Redux */}
+            <CounterControl label="Increment" clicked={props.onIncrement} />
+            <CounterControl label="Decrement" clicked={props.onDecrement} />
+            <CounterControl label="Add 5" clicked={props.onAdd} />
+            <CounterControl label="Subtract 5" clicked={props.onSub} />
+        </div>
+    );
+};
 
-    counterChangedHandler = (action, value) => {
-        switch (action) {
-            case 'inc':
-                this.setState((prevState) => { return { counter: prevState.counter + 1 }; });
-                break;
-            case 'dec':
-                this.setState((prevState) => { return { counter: prevState.counter - 1 }; });
-                break;
-            case 'add':
-                this.setState((prevState) => { return { counter: prevState.counter + value }; });
-                break;
-            case 'sub':
-                this.setState((prevState) => { return { counter: prevState.counter - value }; });
-                break;
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                {/* <CounterOutput value={this.state.counter} /> */}
-                <CounterOutput value={this.props.ctr} />
-                <CounterControl label="Increment" clicked={() => this.counterChangedHandler('inc')} />
-                <CounterControl label="Decrement" clicked={() => this.counterChangedHandler('dec')} />
-                <CounterControl label="Add 5" clicked={() => this.counterChangedHandler('add', 5)} />
-                <CounterControl label="Subtract 5" clicked={() => this.counterChangedHandler('sub', 5)} />
-            </div>
-        );
-    }
-}
-
+// Bind Redux state to component properties
 const mapStateToProps = state => {
     return {
         ctr: state.counter
     };
 };
 
-export default connect(mapStateToProps)(Counter);
+// Bind Redux dispatch functions to component properties
+const mapDispatchToProps = dispatch => {
+    return {
+        onIncrement: () => dispatch({ type: 'INC' }),
+        onDecrement: () => dispatch({ type: 'DEC' }),
+        onAdd: () => dispatch({ type: 'ADD' }),
+        onSub: () => dispatch({ type: 'SUB' })
+    };
+};
+
+// Connect Redux to component
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
