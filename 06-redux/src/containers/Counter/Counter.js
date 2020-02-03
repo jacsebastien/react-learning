@@ -14,7 +14,7 @@ const Counter = props => {
             <CounterControl label="Add 5" clicked={props.onAdd} />
             <CounterControl label="Subtract 5" clicked={props.onSub} />
             <hr />
-            <button onClick={props.onStoreResult}>Store Result</button>
+            <button onClick={() => props.onStoreResult(props.ctr)}>Store Result</button>
             <ul>
                 {props.res.map((item, index) => (
                     <li key={index} onClick={() => props.onDeleteResult(index)}>{item}</li>
@@ -27,8 +27,8 @@ const Counter = props => {
 // Bind Redux state to component properties
 const mapStateToProps = state => {
     return {
-        ctr: state.counter,
-        res: state.results
+        ctr: state.ctr.counter,
+        res: state.res.results
     };
 };
 
@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => {
         onDecrement: () => dispatch({ type: actionTypes.DEC }),
         onAdd: () => dispatch({ type: actionTypes.ADD, value: 5 }),
         onSub: () => dispatch({ type: actionTypes.SUB, value: 5 }),
-        onStoreResult: () => dispatch({ type: actionTypes.STORE }),
+        onStoreResult: (res) => dispatch({ type: actionTypes.STORE, result: res }),
         onDeleteResult: (selIndex) => dispatch({ type: actionTypes.DELETE, index: selIndex })
     };
 };
