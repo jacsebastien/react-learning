@@ -32,7 +32,8 @@ const reducer = (state = initialState, action) => {
             };
         case 'DELETE':
             return {
-                ...state
+                ...state,
+                results: state.results.filter((r, i) => i !== action.index)
             };
         default:
             return state;

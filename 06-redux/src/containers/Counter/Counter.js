@@ -16,7 +16,7 @@ const Counter = props => {
             <button onClick={props.onStoreResult}>Store Result</button>
             <ul>
                 {props.res.map((item, index) => (
-                    <li key={index} onClick={props.onDeleteResult}>{item}</li>
+                    <li key={index} onClick={() => props.onDeleteResult(index)}>{item}</li>
                 ))}
             </ul>
         </div>
@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => {
         onAdd: () => dispatch({ type: 'ADD', value: 5 }),
         onSub: () => dispatch({ type: 'SUB', value: 5 }),
         onStoreResult: () => dispatch({type: 'STORE'}),
-        onDeleteResult: () => dispatch({type: 'DELETE'})
+        onDeleteResult: (selIndex) => dispatch({type: 'DELETE', index: selIndex})
     };
 };
 
