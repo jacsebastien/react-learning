@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
+import * as actionTypes from '../../store/actions';
 
 const Counter = props => {
     return (
@@ -34,12 +35,12 @@ const mapStateToProps = state => {
 // Bind Redux dispatch functions to component properties
 const mapDispatchToProps = dispatch => {
     return {
-        onIncrement: () => dispatch({ type: 'INC' }),
-        onDecrement: () => dispatch({ type: 'DEC' }),
-        onAdd: () => dispatch({ type: 'ADD', value: 5 }),
-        onSub: () => dispatch({ type: 'SUB', value: 5 }),
-        onStoreResult: () => dispatch({type: 'STORE'}),
-        onDeleteResult: (selIndex) => dispatch({type: 'DELETE', index: selIndex})
+        onIncrement: () => dispatch({ type: actionTypes.INC }),
+        onDecrement: () => dispatch({ type: actionTypes.DEC }),
+        onAdd: () => dispatch({ type: actionTypes.ADD, value: 5 }),
+        onSub: () => dispatch({ type: actionTypes.SUB, value: 5 }),
+        onStoreResult: () => dispatch({ type: actionTypes.STORE }),
+        onDeleteResult: (selIndex) => dispatch({ type: actionTypes.DELETE, index: selIndex })
     };
 };
 
