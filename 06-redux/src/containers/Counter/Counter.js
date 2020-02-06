@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
-import * as actionTypes from '../../store/actions';
+import * as actionCreators from '../../store/actions/actions';
 
 const Counter = props => {
     return (
@@ -11,8 +11,8 @@ const Counter = props => {
             <CounterOutput value={props.ctr} /> {/* Access props updated by Redux */}
             <CounterControl label="Increment" clicked={props.onIncrement} />
             <CounterControl label="Decrement" clicked={props.onDecrement} />
-            <CounterControl label="Add 5" clicked={props.onAdd} />
-            <CounterControl label="Subtract 5" clicked={props.onSub} />
+            <CounterControl label="Add 5" clicked={() => props.onAdd(5)} />
+            <CounterControl label="Subtract 5" clicked={() => props.onSub(5)} />
             <hr />
             <button onClick={() => props.onStoreResult(props.ctr)}>Store Result</button>
             <ul>
@@ -35,12 +35,12 @@ const mapStateToProps = state => {
 // Bind Redux dispatch functions to component properties
 const mapDispatchToProps = dispatch => {
     return {
-        onIncrement: () => dispatch({ type: actionTypes.INC }),
-        onDecrement: () => dispatch({ type: actionTypes.DEC }),
-        onAdd: () => dispatch({ type: actionTypes.ADD, value: 5 }),
-        onSub: () => dispatch({ type: actionTypes.SUB, value: 5 }),
-        onStoreResult: (res) => dispatch({ type: actionTypes.STORE, result: res }),
-        onDeleteResult: (selIndex) => dispatch({ type: actionTypes.DELETE, index: selIndex })
+        onIncrement: () => dispatch(actionCreators.increment()),
+        onDecrement: () => dispatch(actionCreators.decrement()),
+        onAdd: (value) => dispatch(actionCreators.add(value)),
+        onSub: (value) => dispatch(actionCreators.subtract(value)),
+        onStoreResult: (res) => dispatch(actionCreators.storeResult(res)),
+        onDeleteResult: (selIndex) => dispatch(actionCreators.deleteResult(selIndex))
     };
 };
 
