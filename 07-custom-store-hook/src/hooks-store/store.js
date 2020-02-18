@@ -6,7 +6,7 @@ let listeners = [];
 let actions = {};
 
 // If properties were put into the custom hook, data will be exclusive to each component that call the hook and not global to the application
-export const useStore = () => {
+export const useStore = (shouldListen = true) => {
     // const [state, setState] = useState(globalState);
     const setState = useState(globalState)[1];
 
@@ -23,19 +23,20 @@ export const useStore = () => {
         }
     };
 
-    useEffect(
-        () => {
-            // Each time a component use useStore, it will have his own setState, pushed into listenes array (one setState per component)
+    useEffect(() => {
+        // Each time a component use useStore, it will have his own setState, pushed into listenes array (one setState per component)
+        if(shouldListen) {
             listeners.push(setState);
+        }
 
-            return () => {
-                // Remove setState from listeners when component that use useStore is removed
+        return () => {
+            // Remove setState from listeners when component that use useStore is removed
+            if(shouldListen) {
                 listeners = listeners.filter((li) => li != setState);
-            };
-            // once setState is used in a component it never changes, so it will not trigger useEffect again and again
-        },
-        [ setState ]
-    );
+            }
+        };
+        // once setState is used in a component it never changes, so it will not trigger useEffect again and again
+    },[ setState, shouldListen ]);
 
     return [globalState, dispatch];
 };
