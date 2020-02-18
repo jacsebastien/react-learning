@@ -10,9 +10,9 @@ export const useStore = () => {
     // const [state, setState] = useState(globalState);
     const setState = useState(globalState)[1];
 
-    const dispatch = (actionIdentifier) => {
-        // actions are functions and we pass globalState to it to get a new state
-        const newState = actions[actionIdentifier](globalState);
+    const dispatch = (actionIdentifier, payload) => {
+        // actions are functions and we pass globalState to it to get a new state and a payload to get additional data
+        const newState = actions[actionIdentifier](globalState, payload);
 
         // merge newState with old one
         globalState = { ...globalState, ...newState };
